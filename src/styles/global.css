@@ -1,0 +1,519 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+  background-color: rgb(31, 32, 33);
+  position: relative;
+}
+
+/* Variables */
+:root {
+  --lightWhite: rgb(255, 255, 255, 0.8);
+  --bodyPadding: 0 8rem;
+  --lightBorder: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Icons */
+.icons {
+  color: var(--lightWhite);
+  cursor: pointer;
+}
+
+/* Header Comp */
+.header {
+  display: none;
+  height: 6rem;
+  padding: var(--bodyPadding);
+  display: flex;
+  align-items: center;
+  border-bottom: var(--lightBorder);
+}
+
+.header > h1 {
+  font-size: 2.5rem;
+  color: var(--lightWhite);
+}
+
+/* Add Task Comp */
+.addTaskContainer {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--bodyPadding);
+}
+
+.addTaskDiv {
+  width: 55rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border: var(--lightBorder);
+  border-radius: 5px;
+  box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Title and Description for both add and show comps */
+.title {
+  width: 100%;
+  font-size: 1.6rem;
+  color: var(--lightWhite);
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.description {
+  width: 100%;
+  min-height: 5rem;
+  max-height: 50rem;
+  font-size: 1.5rem;
+  color: var(--lightWhite);
+  border: none;
+  outline: none;
+  resize: none;
+  background-color: transparent;
+  overflow-y: auto;
+}
+
+/* Description scrollbar style */
+.description::-webkit-scrollbar {
+  width: 5px;
+}
+
+.description::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.description::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+}
+
+.description::-webkit-scrollbar-track {
+  background-color: rgb(255, 255, 255, 0.075);
+}
+
+/* Add task comps style */
+.addTaskDiv .title {
+  height: 2rem;
+  padding: 2.2rem 1.7rem;
+}
+
+.addTaskDiv .description {
+  margin-top: 0.5rem;
+  padding: 0 1.7rem;
+}
+
+/* Tools Div */
+.toolsDiv {
+  margin: 1rem 0 0.5rem 0;
+  padding: 0.2rem 1.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* Priority level div */
+.priority {
+  min-width: 9rem;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border: var(--lightBorder);
+  border-radius: 5px;
+  position: relative;
+  background-color: transparent;
+}
+
+.dropDown {
+  width: calc(100% + 3rem);
+  padding: 0.5rem 0;
+  list-style: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -1.5rem;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background-color: rgb(45, 45, 46);
+  border: var(--lightBorder);
+  border-radius: 5px;
+}
+
+.dropDown li {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: start;
+  font-size: 1.4rem;
+  color: var(--lightWhite);
+  transition: all 150ms linear;
+}
+
+/* Li Bullets */
+.dropDown li::before {
+  content: "\2022";
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 1rem;
+}
+.dropDown li:nth-child(1):before {
+  color: #00ff00cc;
+}
+.dropDown li:nth-child(2):before {
+  color: #ffff00cc;
+}
+.dropDown li:nth-child(3):before {
+  color: #ff0000cc;
+}
+
+.dropDown li:hover,
+.sortByDropDown > div:hover {
+  background-color: rgb(31, 32, 33);
+  color: white;
+}
+
+.priority > span {
+  font-size: 1.5rem;
+  color: var(--lightWhite);
+}
+
+/* Icons Div */
+.iconsDiv {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.iconsDiv > .save {
+  font-size: 1.7rem;
+}
+
+/* Show Tasks Div  */
+.showTasksContainer {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  padding: var(--bodyPadding);
+}
+
+.showTasksWrapper {
+  width: 55rem;
+  min-height: 50rem;
+  max-height: auto;
+  padding-bottom: 2rem;
+  border: var(--lightBorder);
+}
+
+/* Show task Nav [all, completed] */
+.showTasksNav {
+  height: 4rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(45, 45, 46);
+}
+
+:is(.showTasksNav) > button,
+.sortByButton {
+  height: 100%;
+  padding: 0 1rem;
+  font-size: 1.7rem;
+  color: var(--lightWhite);
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.sortByButton {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  position: relative;
+}
+
+.sortByDropDown {
+  width: calc(100% + 3rem);
+  padding: 0.5rem 0;
+  list-style: none;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  border: var(--lightBorder);
+  border-radius: 5px;
+  background-color: rgb(45, 45, 46);
+  display: none;
+}
+
+.sortByDropDown > div {
+  padding: 0.5rem 1rem;
+  display: flex;
+  gap: 1rem;
+  transition: all 150ms linear;
+}
+
+/* All task [todos] */
+.showAllTasksContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.showAllTasksContainer > .task {
+  height: 3rem;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.showAllTasksContainer .texts {
+  width: 85%;
+}
+
+.texts h3 {
+  font-size: 1.6rem;
+  color: var(--lightWhite);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* All task {todos tools} */
+.showAllTasksContainer .tools {
+  width: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+}
+
+.checkBox {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+/* Full Task Comp */
+.fullTaskBg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fullTaskWrapper {
+  width: 55rem;
+  max-height: 60rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border: var(--lightBorder);
+  border-radius: 5px;
+  background-color: rgb(31, 32, 33);
+}
+
+.fullTaskWrapper .title {
+  padding: 1.5rem;
+}
+
+.fullTaskWrapper .description {
+  padding: 0 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.fullTaskWrapper .dropDown {
+  top: -375%;
+}
+
+/* Footer */
+.footerDiv {
+  width: 100%;
+  padding: 2rem 0;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: var(--lightBorder);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.footerDiv > p {
+  font-size: 2.2rem;
+  color: var(--lightWhite);
+}
+
+/* Width Media */
+
+/* variable, show task div, full task div */
+@media (width <701px) {
+  :root {
+    --bodyPadding: 0 4rem;
+  }
+
+  .showTasksWrapper {
+    width: 100%;
+  }
+
+  .fullTaskWrapper {
+    width: 90%;
+  }
+}
+
+/* variable, add task div, full task div, tools div */
+@media (width <551px) {
+  :root {
+    --bodyPadding: 0 2rem;
+  }
+
+  .addTaskDiv .title {
+    padding: 2.2rem 1rem;
+  }
+
+  .addTaskDiv .description {
+    padding: 0 1rem;
+  }
+
+  .fullTaskWrapper .title {
+    padding: 1rem;
+  }
+
+  .fullTaskWrapper .description {
+    padding: 0 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .toolsDiv {
+    padding: 0.2rem 0.9rem;
+  }
+}
+
+/* variable*/
+@media (width <451px) {
+  :root {
+    --bodyPadding: 0 1.5rem;
+  }
+}
+
+/* header, show all task div, footer comp */
+@media (width <391px) {
+  .header {
+    height: 5rem;
+  }
+  .header > h1 {
+    font-size: 2rem;
+  }
+
+  .showAllTasksContainer .texts {
+    width: 75%;
+  }
+  .showAllTasksContainer .tools {
+    width: 25%;
+  }
+
+  .footerDiv > p {
+    font-size: 2rem;
+  }
+}
+
+/* header, tools div, footer */
+@media (width < 291px) {
+  .header {
+    justify-content: center;
+  }
+
+  .toolsDiv {
+    padding: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .iconsDiv {
+    gap: 1.5rem;
+  }
+
+  .footerDiv > p {
+    padding: 0 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    text-wrap: balance;
+  }
+}
+
+/* sortBy div */
+@media (width < 278px) {
+  .showTasksNav {
+    height: auto;
+    padding: 1rem 0.2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* show all task div */
+@media (width < 271px) {
+  .showAllTasksContainer > .task {
+    height: auto;
+    padding: 0.5rem 1rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .showAllTasksContainer .texts {
+    width: 100%;
+  }
+
+  .showAllTasksContainer .tools {
+    width: 100%;
+    gap: 1.3rem;
+  }
+}
+
+/* Height Media */
+
+/* full task div, description */
+@media (height < 601px) {
+  .fullTaskWrapper {
+    max-height: auto !important;
+  }
+  .description {
+    max-height: 70vh !important;
+  }
+}
+
+/* description */
+@media (height < 451px) {
+  .description {
+    max-height: 50vh !important;
+  }
+}
+
+/* description */
+@media (height < 251px) {
+  .description {
+    max-height: 20vh !important;
+  }
+}
