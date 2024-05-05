@@ -16,7 +16,7 @@ export default function App() {
       <AddTask />
       <ShowTasks />
       <FullTask />
-      // <Footer />
+ {/* <Footer /> */}
     </>
   );
 }
